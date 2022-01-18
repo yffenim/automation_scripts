@@ -1,0 +1,28 @@
+# Check that `auth.log` exists: 
+`find /var/log -name 'auth.log' 2>/dev/null`
+
+# Check that a `Desktop` and a `Downloads` directory exist for current usert user
+`find ~ -name Downloads  && stat -c "%U %G" Downloads`
+`find ~ -name Downloads | xargs stat`
+`find ~ -name Downloads | xargs stat -c "%U %G"
+
+# Check for any scripts in temporary directories
+`find /tmp -name "*.sh" 2>/dev/null`
+
+# Check that the only users with accounts in the ~ directory are 
+`ls -alh | awk '{print $3} | sort 
+# unsure as to how to efficiently filter out the listed names?
+# visually (manually), I can see that Jack is suspect.
+# Exploring his user home:
+`find . -name "*.sh"` 
+
+# I find two suspicious scripts. The first one is:
+`nc -lvp 4444 > /tmp/rev_shell.sh &
+renice -n 1 $(pidof nc)
+
+# This looks like it wants to:
+1. redirect the data from port 4444 to a shell script located at `/tmp/rev_shell.sh`
+2. alter the scheduling priority of `nc` to be equal to "1" 
+
+#But why? When I check for the `rev_shell.sh` script, it is not there.
+

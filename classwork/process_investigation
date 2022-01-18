@@ -1,0 +1,53 @@
+# list all processes running in real time
+
+`lsof -u jack` for finding jack's processes
+`top` for finding the top 
+`lsof | grep jack` for highlighting
+
+# What is the difference between lsof and ps?
+`ps aux | grep jack`
+
+## How many tasks have been started on the host?
+ps aux | wc -l
+ps aux | grep jack | wc -l # not great because grep has not filtered out occurances of jack elsewhere
+
+ps -eo user | grep jack | wc -l
+# `-o` allows you to specify format
+# `-e` selects all processes, including those of other users
+
+ps -U jack -u jack u
+# every process running as root (real and effective ID) in user format?
+
+# How many are these are sleeping? 
+ps -eo  user,state | awk '{if($2=="S" || $2=="D") print $1,$2}' | wc -l #245
+
+# Which process uses the most memory?
+ps -eo user,pid,cmd,%cpu,%mem --sort=-%mem | head -20
+
+
+# Search all running processes by a specific user
+
+ps -eo user,pid,cmd,state | grep root | awk '{if ($4=="R") print $1,$2,$3,
+$4}'
+
+ps -U root -u root u | awk '{if ($8 == "R") print $0}'
+# $0 prints everything
+
+# BONUS: 
+
+# List all processes with a TTY terminal
+ps -t # what is the difference between this and 
+ps -eo pid,tty,cmd | grep pts 
+
+# Identify the ID of suspicious processes:
+
+ps -eo pid,user,tty,cmd | awk '/str.sh/{print $0}' # returns the matches including the awk command process 
+
+ps -eo pid,user,tty,cmd | awk '/[s]tr.sh/{print $0}' # avoids matching the awk command itself
+
+ps -t | grep "[s]tr.sh" | awk '{print $0}' # same as above
+
+# WHY DOESN'T A WILDCARD WORK HERE????? 
+ps -t | grep "*.sh" | 
+
+
