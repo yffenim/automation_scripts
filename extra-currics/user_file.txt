@@ -1,0 +1,5 @@
+sam:default:1015:1016::/home/sam:/bin/sh
+joe:default:1015:1016::/home/joe:/bin/sh
+amy:default:1015:1016::/home/amy:/bin/sh
+sara:default:1015:1016::/home/sara:/bin/sh
+admin:default:1015:1016::/home/admin:/bin/sh
