@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# bash script to batch add new linux users
+
+# Instructions
 # Loop through array and for each user, 
 # generate a random password
 # create a UID and GID in incrementing values starting from 1013 and add to the user data structure
@@ -27,9 +30,10 @@ do
 	group_id=1016
 
 # set default home directory
-	home="/home/$user"
-# set password
-	pw="default"
+	home="/home/$user"i
+
+# generate random string for password
+pw=$(cat /dev/urandom | base64 | tr -dc "a-zA-Z0-9!@#$%^&*()_+?><~\;'" | fold -w 32 | head -n 1)
 
 # generate user data object
 	user_obj="$user:$pw:$user_id:$group_id::$home:/bin/sh"
