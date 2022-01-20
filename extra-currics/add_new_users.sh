@@ -21,16 +21,18 @@
 user_array=("sam" "joe" "amy" "sara" "admin")
 
 # Initiate a file for new user objects
-file="./user_file.txt"
+file="./users_file.txt"
+
+# Initialize UID and GID for new users
+user_id=1015
+group_id=1016
 
 # Loop through array
 for user in "${user_array[@]}"
 do
-	user_id=1015
-	group_id=1016
 
 # set default home directory
-	home="/home/$user"i
+	home="/home/$user"
 
 # generate random string for password
 pw=$(cat /dev/urandom | base64 | tr -dc "a-zA-Z0-9!@#$%^&*()_+?><~\;'" | fold -w 32 | head -n 1)
