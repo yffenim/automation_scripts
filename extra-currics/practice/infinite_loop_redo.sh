@@ -16,7 +16,8 @@ do
 		exit 0
 	else
 		echo "inside the add to array condition"
-	  user_array=("${user_array[@]}" "$response")
+	  #WHY IS THIS ARRAY ITEM NOT GETTING ADDED?!!!?
+		user_array+=( $response )
 		#user_array+=($response)
 	fi
 done

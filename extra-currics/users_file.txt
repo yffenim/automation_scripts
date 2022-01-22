@@ -1,4 +1,0 @@
-one:2Lnbxi+bWklWn9SorwxQmaJp8m6rvd1o:1015:1016::/home/one:/bin/sh
-one:yz2RWqgdiVM3OcK7MSmbfKaYi6vMod6E:1015:1016::/home/one:/bin/sh
-one:NSBtcHDVV7u9Vni7UkCxZzglBlo1TFne:1015:1016::/home/one:/bin/sh
-one:KCxal2oqPH+H51oX4k0Z03+pb+F7DJQp:1015:1016::/home/one:/bin/sh
