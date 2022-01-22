@@ -59,22 +59,25 @@ repeat=1
 #Initialize an empty array
 declare -a user_array=()
   
+read - p 
+
+
 # prompt for new user name and save in user variable
-read -p "What is the new user's name? " user
+#read -p "What is the new user's name? " user
 # add user name to array
-user_array+=($user)
-echo ${user_array[@]}
+#user_array+=($user)
+#echo ${user_array[@]}
 
-read -p "Would you like to add a user? y/n/q " user
+#read -p "Would you like to add a user? y/n/q " user
 
-if [ $response = "y" ];then
-	echo "yes"
-elif [ $response = "q" ]; then
-	echo "goodbye!"
-	exit
-else
-	create_user_objects
-fi
+#if [ $response = "y" ];then
+#	echo "yes"
+#elif [ $response = "q" ]; then
+#	echo "goodbye!"
+#	exit
+#else
+#	create_user_objects
+#fi
 
 #[[ $response = "n" && $echo "continue to function" ]] || echo "repeat"
 
