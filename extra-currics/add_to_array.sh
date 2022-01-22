@@ -1,34 +1,27 @@
 #!/bin/bash
 
-# declare -a user_array=()
-# user_array=("one")
-# echo "before loop, the array is: $user_array"
 
-# for (( ; ; ))
-# do
-#	read -p "Please add a name:  " response
-#	echo $response
-#	echo "the current array is $user_array"
-#	if [ $response == "done" ]
-#	then
-#		echo "Preparing file..."
-#		echo "user array is: $user_array"
-#		exit 0
-#	else
-#		echo "inside the add to array condition"
-#	  user_array+=( $response )
-		#user_array+=($response)
-#	fi
-# done
+
 echo "Hello! Welcome to spaghetti style program for batch adding new users!"
 
 create_user_objects () {
     file="./user_file.txt"
     user_id=1015
     group_id=1016
-    echo "insider_user_objects"
-    echo ${my_array[@]}
-}
+    echo "'index zero element: '${my_array[0]}'"
+    echo "index one element: '${my_array[1]}'"
+
+    for user in "${my_array[@]}"
+    do 
+        home="/home/$user"
+        pw=$(cat /dev/urandom | base64 | tr -dc "a-zA-Z0-9!@#$%^&*()_+?><~\;'" | fold -w 32 | head -n 1)
+        user_obj="$user:$pw:$user_id:$group_id::$home:/bin/sh"
+        echo $user_obj >> $file
+        
+        user_id=$((user_id+=1))
+        group_id=$((group_id+=1))
+    done
+    }
 
 
 input_loop () {
@@ -36,13 +29,13 @@ while read -p "please enter a username or press 'g' to generate user file: "  us
 do
     if [ $user = "g" ]
     then
-        echo "going to g"
-        echo ${my_array[@]}
+        # use echo to capture array return before sending to method. 
+        echo "Creating user objects for: ${my_array[@]}"
         create_user_objects ${my_array[@]} 
-
     else
     my_array=("${my_array[@]}" $user)
-    echo ${my_array[@]}
+    # use echo instead of return which works like exit in bash
+    # echo ${my_array[@]}
     fi
 done
 }
