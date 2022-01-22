@@ -63,7 +63,7 @@ declare -a user_array=()
 read -p "What is the new user's name? " user
 # add user name to array
 user_array+=($user)
-echo $user_array
+echo ${user_array[@]}
 
 read -p "Would you like to add a user? y/n/q " user
 

@@ -26,7 +26,8 @@ create_user_objects () {
     file="./user_file.txt"
     user_id=1015
     group_id=1016
-    echo $my_array
+    echo "insider_user_objects"
+    echo ${my_array[@]}
 }
 
 
@@ -36,15 +37,17 @@ do
     if [ $user = "g" ]
     then
         echo "going to g"
-        create_user_objects $my_array
+        echo ${my_array[@]}
+        create_user_objects ${my_array[@]} 
+
     else
     my_array=("${my_array[@]}" $user)
-    echo $my_array
+    echo ${my_array[@]}
     fi
 done
 }
 
 input_loop
-
-printf -- 'data%s ' "${my_array[@]}"
+echo "outside"
+# printf -- 'data%s ' "${my_array[@]}"
 
