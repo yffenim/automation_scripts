@@ -53,15 +53,14 @@ Running a `SYN` scan on the RockStar Corp servers to the IP found from Phase 1:
 
 __Potential Vulnerabilities and Mitigation Recommendations__
 
-According to the `SYN` scan conducted by the `Nmap` utility, we have 995 closed ports, 4 filtered ports, and 1 open port. 
+According to the `SYN` scan conducted by the `Nmap` utility, we have 995 closed ports, 4 filtered ports, and 1 open port: For the 995 closed ports, this is not a vulnerability as the server has rejected our connection attempt with a `RST` packet meaning that the port is properly configured to be closed.
 
-For the 995 closed ports, this means that the remote sever rejected our connection attempt with a `RST` packet. 
+For the 4 filtered ports, this means that the port is likely blocked by a physical firewall device in the network path, host-based firewall software, or from router configurations. According to the NMAP Reference Guide (Chapter 15), the "packet filtering prevents its probes from reaching the port" meaning that we cannot access the port from our scanning location but it does not necesarily mean that the port is closed on the sytem itself. This means that these ports have adequate security protection.
 
-For the 4 filtered ports, this means that the port is likely blocked by a physical firewall device in the network path, host-based firewall software, or from router configurations. According to the NMAP Reference Guide (Chapter 15), the "packet filtering prevents its probes from reaching the port" meaning that we cannot access the port from our scanning location but it does not necesarily mean that the port is closed on the sytem itself. 
+Lastly, we have our open port `22` which is typically used for remote management via `SSH`. Even though this generally considered secure if it is configured with key authentication (as opposed to password authentication), we consider this to be a potential vulnerability. A password authentication is susceptible to brute-force attacks and/or social engineering, especially if it is a weak or obvious password. We therefore strongly recommend (at least) implementing `SSH Key Authenticatioe` infrastucture. 
 
-Lastly, we have our open port `22` which is typically used for remote management via `SSH` and generally considered secure if it is configured with key authentication (as opposed to password authentication). A password authentication is susceptible to brute-force attacks and/or social engineering. Since every direct access to a server is a potential entry point for attackers, it is important to take this vulnerability seriously.
 
-We recommend (at least) implementing `SSH Key Authentication` infrastucture. We also recommend that instead of storing the private key a hard drive, it can be stored on a cryptographic device like a smart card or a USB token so that it is not accessible to other (possibly malicious) users of the computer that was used to generate the keys.
+Since every direct access to a server is a potential entry point for attackers, it is important to take this vulnerability seriously. We further recommend that instead of storing the private key a hard drive, it can be stored on a cryptographic device like a smart card or a USB token so that it is not accessible to other (possibly malicious) users of the computer that was used to generate the keys.
 
 __OSI Layer__
 
