@@ -20,7 +20,7 @@ Your task is a crucial one: Restore the Resistance's core DNS infrastructure and
 
 __Network Issue:__
 
-The Resistence has taken down their primary DNS and email servers in order to a build and deply a new DNS and mail server but they are not currently receiving emails because they have no configured MX Records for the new email servers.
+The Resistence has taken down their primary DNS and email servers in order to a build and deply a new DNS and mail server but they are not currently receiving emails because they have not configured MX Records for the new email servers to the correct primary and secondary mail servers.
 
 __DNS record type found:__ 
 
@@ -61,7 +61,7 @@ Official emails are going into spam or being blocked because the SPF record has 
 
 __DNS record type found:__
 
-Looking up the SPF (Sender Policy Framework) record using `nslookup -type=txt theforce.net | grep spf` to find the following SPF record::
+Looking up the SPF (Sender Policy Framework) record using `nslookup -type=txt theforce.net | grep spf` to find the following SPF record:
 
 `theforce.net	text = "v=spf1 a mx mx:smtp.secureserver.net include:aspmx.googlemail.com ip4:104.156.250.80 ip4:45.63.15.159 ip4:45.63.4.215"`
 
@@ -71,11 +71,11 @@ Alternatively, we can also use the `dig` DNS lookup utility: `dig theforce.net t
 
 __DNS records that can explain the reasons for existing network issues:__
 
-The servers currently configured to be allowed to send emails for the domain are from the following IPv4 hosts: `104.156.250.80`, `45.63.15.159`, and `45.63.4.215`. The new one (`45.23.176.21`) has not beed added. It is likely that similar to Mission 1, someone has forgotten to update changes made while the network was down.
+The servers currently configured to be allowed to send emails for the domain are from the following IPv4 hosts: `104.156.250.80`, `45.63.15.159`, and `45.63.4.215`. The new one (`45.23.176.21`) has not beed added. It is likely that similar to Mission 1, someone has forgotten to update the `DNS` text record to reflect the required record pointing to the new mail server.
 
 __Recommended fixes to save the Galaxy!__
 
-We have not been given data regarding the other mail server IP addresses -- if we assume that those are still correct and do not need to removed, we only need to add the missing IP so that the corrected record should be:
+We have not been given data regarding whether the other mail server IP addresses are up -- if we assume that we do not need to removed, we only need to add the missing IP so that the corrected record should be:
 
 `theforce.net.		3498	IN	TXT	"v=spf1 a mx mx:smtp.secureserver.net include:aspmx.googlemail.com ip4:104.156.250.80 ip4:45.63.15.159 ip4:45.63.4.215 ip4:45.23.176.21` 
 
@@ -100,7 +100,7 @@ Looking up the `CNAME` (Canonical Name) of `www.theforce.net` with `nslookup` in
 
 This gives the following (relevant) output:
 
-`www.theforce.net	canonical name = theforce.net.`
+`www.theforce.net	canonical name = theforce.net.` This means that `www.theforce.net` domain  will redirect to the canonical name at `theforce.net`.
 
 Alternatively, we can also use single line command `nslookup -type=CNAME www.theforce.net` or 
 `dig www.theforce.net | grep CNAME` if we like to confirm things in multiple ways before moving forward:
@@ -109,48 +109,61 @@ Alternatively, we can also use single line command `nslookup -type=CNAME www.the
 
 Looking up why our `resistance.theforce.net` is not redirecting to `theforce.net`:
 
-Using `nslookup -type=CNAME resistance.theforce.net` we get:`** server can't find resistance.theforce.net: NXDOMAIN` which is an error message indicating the  DNS query failed because the domain name queried (`resistance.theforce.net` does not exist or that the query could not "know" that it exists.
+Using `nslookup -type=CNAME resistance.theforce.net` we get:`** server can't find resistance.theforce.net: NXDOMAIN` which is an error message indicating the  DNS query failed because the domain name queried (`resistance.theforce.net`) does not exist or that the query could not "know" that it exists. This makes sense because we are supposed to be redirecting `resistance.theforce.net` to the `CNAME` domain `theforce.net` but the `DNS CNAME` record is missing so it is not redirecting.
 
-This could mean (if we assume we have not made a user error in our query, i.e. mistyping the address):
+However, other reasons that we could be receiving the `NXDOMAIN` error could mean (if we assume we have not made a user error in our query, i.e. mistyping the address):
 - the domain is currently offline or is having server issues
 - a security control blocking the domain 
 - domain could be compromised or that malware exists
 
-To follow-up, we can first check if the domain is offline using `https://isitup.org/resistance.theforce.net` which indicates that the domain is down. This makes sense because we are supposed to be redirecting `resistance.theforce.net` to the `CNAME` domain `theforce.net` so the subdomain should not exist on its own.
+To follow-up, we can first check if the domain is offline using `https://isitup.org/resistance.theforce.net` which indicates that the domain is down. To fix this, we need to correct the `CNAME` record configuration to have this line:
 
 __Recommended fixes to save the Galaxy!__
 
-To fix this, we need to correct the `CNAME` record configuration to have this line:
-
-`resistance.theforce.net	canonical name = theforce.net.`
+Correct the DNS record to be: `resistance.theforce.net	canonical name = theforce.net.`
 
 ### Mission 4 ???
 
 __Network Issue:__
+
+The `DNS` records for `princessleia.site` have not been configured to reference the back up servers.
+
 __DNS record type found:__
+
+Checking the `DNS` name server records: `nslookup -type=NS princessleia.site`
+
+`Non-authoritative answer:
+princessleia.site	nameserver = ns26.domaincontrol.com.
+princessleia.site	nameserver = ns25.domaincontrol.com.`
+
 __DNS records that can explain the reasons for existing network issues:__
+
+The current name servers are `ns26.domaincontrol.com` and `ns25.domaincontrol.com` and the backup server (`ns2.galaxybackup.com`) provided by the Resistance is missing.
+
 __Recommended fixes to save the Galaxy!__
+
+We need to add a reference to the backup `DNS` server: 
+
+`princessleia.site nameserver = ns2.galaxybackup.com.`
 
 ### Mission 5: 
 
 __Network Issue:__ 
 
-Slow network traffic from the planet of `Batuu` to `Jedha` due to an attack on Planet N.
-
-The routing protocol in use is `OSPF` Open Shortest Path First. 
+We are experiencing slow network traffic from the planet of `Batuu` to `Jedha` due to an attack on Planet N and need to find a better path. 
 
 __Recommended fixes to save the Galaxy!__
 
-The new path to use is: 
+Using the `OSPF` (Open Shortest Path First):
+D C E F J I L Q T V 
+1 2 1 1 1 6 4 2 2 2
+
+This path has 23 hops, does not include `Planet N`, and is the shortest distance:
+Planet Batuu → D → C → E → F → J → I → L → Q → T → V → Planet Jedha
 
 ### Mission 6: 
 
-Your Mission:
-
-- Figure out the Dark Side's secret wireless key by using Aircrack-ng.
-
-
-Results from running `Aircrack-ng` with the password list downloaded from: https://github.com/danielmiessler/SecLists/blob/master/Passwords/WiFi-WPA/probable-v2-wpa-top4800.txt
+Results from running `aircrack-ng Darkside.pcap -w ~/Documents/SecLists/Passwords/WiFi-WPA/probable-v2-wpa-top4800.txt` with the password list downloaded from: https://github.com/danielmiessler/SecLists/blob/master/Passwords/WiFi-WPA/probable-v2-wpa-top4800.txt
 
 
       `[00:00:00] 3432/4800 keys tested (10349.88 k/s)
@@ -173,13 +186,15 @@ Results from running `Aircrack-ng` with the password list downloaded from: https
 
 The password is: `dictionary`. We use this password to decrypt the WPA traffic via Wireshark. 
 
-- Once you have decrypted the traffic, figure out the following Dark Side information:
-
-  - Host IP Addresses and MAC Addresses by looking at the decrypted `ARP` traffic.
-
 Host:
 Sender MAC address: IntelCor_55:98:ef (00:13:ce:55:98:ef)
 Sender IP address: 172.16.0.101 (172.16.0.101)
+
+Additional IPs/MAC addresses of interest:
+172.16.0.9 is at 00:14:bf:0f:03:30
+68.9.16.30 is at 00:0f:66:e3:e4:01 which is the same mac as:
+68.9.16.25 is at 00:0f:66:e3:e4:01 which is the same mac as:
+10.1.1.50 is at 00:0f:66:e3:e4:01
 
 Looking for:
 Sender MAC address: Cisco-Li_e3:e4:01 (00:0f:66:e3:e4:01)
@@ -193,7 +208,7 @@ Viewing the DNS record from Mission #4, specifically looking for a hidden messag
 
 `princessleia.site	text = "Run the following in a command line: telnet towel.blinkenlights.nl or as a backup access in a browser: www.asciimation.co.nz"`
 
-Take a screen shot of the results:
+**Screenshot provided in the same folder as this assignment!**
 
 Note: This was the coolest last homework question ever! And thank you for reading.
   
