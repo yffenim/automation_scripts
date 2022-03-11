@@ -63,6 +63,7 @@ class Board extends React.Component {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
+      xIsNext: true,
     };
   }
 
@@ -70,7 +71,10 @@ class Board extends React.Component {
   handleClick(i) {
     const squares = this.state.squares.slice();
     squares[i] = 'X';
-    this.setState({squares: squares});
+    this.setState({
+      squares: squares
+      xIsNext: !this.state.xIsNext,
+    });
   }
 // since state is stored in board, when board's state changes, the square components re-render automatically.
 // square componenents receive values from board and tell oard when they are clicked: they are now "controlled components"
