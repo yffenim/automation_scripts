@@ -20,6 +20,7 @@ class Square extends React.Component {
 
 // render is a method that returns a description for views
   // calling this.setState from an onClick handler in the Square's renter method will tell React to re-render that Square whenver it's button is clicked
+  // child components are automatically updated
   render() {
     return (
       <button className="square" onClick={() => this.setState({value: 'X'})}>
@@ -34,6 +35,16 @@ class Board extends React.Component {
 // method renderSquare passses prop called value to the Square component
 // how do we know this is the parent of square?
 // render square one of its functions returning the Square component 
+
+// we want to store the game's state in the parent board component which can pass the state back down to the children using props so that the children components are in sync with each other and with parent. This is done using constructor:
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+// this method renderSquare is ignored because we have specified the square's own state
   renderSquare(i) {
     return <Square value={i} />;
   }
