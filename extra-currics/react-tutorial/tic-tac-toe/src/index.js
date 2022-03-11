@@ -24,8 +24,15 @@ class Square extends React.Component {
   // child components are automatically updated
   render() {
     return (
-      <button className="square" onClick={() => this.setState({value: 'X'})}>
-        {this.state.value}
+// set up an onClick prop in the button function
+// when clicked, React will call the onCLick event handler from the Square class render() method
+// event handler calls this.props.onClick()
+// since the board passsed the onClikc to Square as a function, the Square callsd the Boar'd handleClick(i) when clicked
+      <button 
+        className="square" 
+        onClick={() => this.props.onClick()}
+      >
+        {this.props.value}
       </button>
     );
   }
