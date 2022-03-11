@@ -7,6 +7,17 @@ import './index.css';
 // show the value of of the prop called value using Square's render method
 // we are passing a FUNCTION as the on click prop -- not saying that you fire everytime on click
 class Square extends React.Component {
+// add a constructor to the class to intialize the state
+// components can have state by setting this.state in their constructors
+// this.state is private to the component
+// call super when defining the constructor of a subclass
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
+
   render() {
     return (
       <button className="square" onClick={() => console.log('click')}>
