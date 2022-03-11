@@ -11,12 +11,13 @@ class Square extends React.Component {
 // components can have state by setting this.state in their constructors
 // this.state is private to the component
 // call super when defining the constructor of a subclass
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
+// constructor no longer needed because Square does not keep track of the game state 
+//  constructor(props) {
+//    super(props);
+//    this.state = {
+//      value: null,
+//    };
+//  }
 
 // render is a method that returns a description for views
   // calling this.setState from an onClick handler in the Square's renter method will tell React to re-render that Square whenver it's button is clicked
