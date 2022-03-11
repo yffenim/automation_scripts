@@ -2,18 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+// to remember things, components use state
+
+// show the value of of the prop called value using Square's render method
+// we are passing a FUNCTION as the on click prop -- not saying that you fire everytime on click
 class Square extends React.Component {
   render() {
     return (
-      <button className="square">
-        {/* TODO */}
+      <button className="square" onClick={() => console.log('click')}>
+        {this.props.value}
       </button>
     );
   }
 }
 
+// board renders square component 
 class Board extends React.Component {
 // method renderSquare passses prop called value to the Square component
+// how do we know this is the parent of square?
+// render square one of its functions returning the Square component 
   renderSquare(i) {
     return <Square value={i} />;
   }
