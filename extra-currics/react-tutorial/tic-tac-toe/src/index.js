@@ -46,7 +46,13 @@ class Board extends React.Component {
   }
 // this method renderSquare is ignored because we have specified the square's own state
   renderSquare(i) {
-    return <Square value={i} />;
+    return (
+// pass a function from board to square because we can't access the game state from square since state is private. This function will have Square class call it when clicked.
+      <Square 
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
