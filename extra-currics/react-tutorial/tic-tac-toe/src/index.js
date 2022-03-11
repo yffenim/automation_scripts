@@ -18,10 +18,12 @@ class Square extends React.Component {
     };
   }
 
+// render is a method that returns a description for views
+  // calling this.setState from an onClick handler in the Square's renter method will tell React to re-render that Square whenver it's button is clicked
   render() {
     return (
-      <button className="square" onClick={() => console.log('click')}>
-        {this.props.value}
+      <button className="square" onClick={() => this.setState({value: 'X'})}>
+        {this.state.value}
       </button>
     );
   }
