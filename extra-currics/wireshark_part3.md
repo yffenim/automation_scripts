@@ -61,7 +61,38 @@ __Steps taken__
 __ANSWERS__
 - Find the following information about the infected Windows machine:
 - Host name: ROTTERDAM-PC$
-- IP Address: 
-- MAC address
+- IP Address: 172.16.4.205 
+- MAC address: Source: LenovoEM_b0:63:a4 (00:59:07:b0:63:a4)
+
 - What is the username of the Windows user whose computer is infected?
+ip.src==172.16.4.205 && kerberos.CNameString
+CNameString: matthijs.devries
+
 - What are the IP addresses used in the actual infection traffic?
+conversations > statistics > tried filtering by address A
+- filtering by how many packets?
+- notice anything weird? 
+185.243.115.84, 166.62.11.64 are the infected traffic.
+
+looking at them specifically:
+- ip.addr == 172.16.4.205 && ip.addr == 166.62.11.64  shows nothing
+- ip.addr == 172.16.4.205 && ip.addr == 185.243.115.84 shows 30k results...
+
+- filter by http
+- a crapton of http continuation which could be shady bc continuation means response was not contained in one response
+
+- 4 POSTs with no GET? Why
+- where is the GET request that allows page to be loaded?
+
+- POST request has weird gif
+- went to it in browser doesn't work
+- exported it as file, rename, open
+
+
+__SUMMARY__
+As with any problem-solving process, the idea is: 
+Where am I now? Where do I want to go? How do I get there? Efficiency comes later.
+ 
+If stuck, go back to "what do I know" and remind yourself this is a school assignment so you have the fearless knowledge of knowing there IS an solvable answer within reach of what you have been taught... lol
+
+
