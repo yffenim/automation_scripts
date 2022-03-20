@@ -1,7 +1,6 @@
 function formatDate(date) {
   return date.toLocaleDateString();
 }
-
 // display avatar from props
 function Avatar(props) {
   return (
