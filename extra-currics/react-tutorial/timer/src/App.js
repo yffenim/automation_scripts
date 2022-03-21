@@ -72,15 +72,5 @@ class Clock extends React.Component {
   }
 }
 
-// why is clock not being called three times?
-function App() {
-  return (
-    <div>
-      <Clock />
-      <Clock />
-      <Clock />
-    </div>
-  );
-}
-
+// exporting the parent class function to that it can be imported on index.js
 export default Clock;
